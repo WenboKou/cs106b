@@ -1,1 +1,1 @@
-# standord_cs106b
+# cs106b
