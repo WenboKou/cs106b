@@ -26,7 +26,15 @@ using namespace std;
  */
 
 int crossSum(const Grid<int>& g, int row, int col) {
-    return 0;
+    int total = 0;
+    for (int r = 0; r < g.numRows(); r++) {
+        total += g[r][col];
+    }
+    for (int c = 0; c < g.numCols(); c++) {
+        total += g[row][c];
+    }
+    total -= g[row][col];
+    return total;
 }
 
 

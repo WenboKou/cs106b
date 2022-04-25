@@ -31,17 +31,33 @@ int checkBalance(string code) {
         char s = code[i];
         if (s == '(' or s == '{') {
             // put it in the stack
-
+            store.push(s);
         } else if (s == ')') {
             // get the last one out and check if they're pair
             // also check if stack is empty
-
+            if (store.isEmpty()) {
+                return i;
+            } else {
+                if (store.pop() != '(') {
+                    return i;
+                }
+            }
         } else if (s == '}') {
             // get the last one out and check if they're pair
             // also check if stack is empty
+            if (store.isEmpty()) {
+                return i;
+            } else {
+                if (store.pop() != '{') {
+                    return i;
+                }
+            }
         }
     }
-    return 0;
+    if (store.isEmpty()) {
+        return -1;
+    }
+    return code.length();
 }
 
 

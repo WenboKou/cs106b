@@ -26,7 +26,24 @@ using namespace std;
  */
 
 Set<int> twice(Vector<int> nums){
-    return {};
+    Set<int> nums_set;
+    Set<int> third;
+    Set<int> output;
+    for (int num : nums) {
+        if (nums_set.contains(num)) {
+            if (output.contains(num)) {
+                third.add(num);
+            } else {
+                output.add(num);
+            }
+        } else {
+            nums_set.add(num);
+        }
+    }
+    for (int num : third) {
+        output.remove(num);
+    }
+    return output;
 }
 
 

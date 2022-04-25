@@ -30,7 +30,20 @@ using namespace std;
  */
 
 Map<string, Vector<string>> friendList(string filename){
-    return {};
+    ifstream input;
+    Vector<string> lines;
+    if (openFile(input, filename)) {
+        readEntireFile(input, lines);
+    }
+    Map<string, Vector<string>> relationship;
+    for (string line : lines) {
+        Vector<string> friends = stringSplit(line, " ");
+        string s1 = friends[0];
+        string s2 = friends[1];
+        relationship[s1].add(s2);
+        relationship[s2].add(s1);
+    }
+    return relationship;
 }
 
 
