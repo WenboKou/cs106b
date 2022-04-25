@@ -26,6 +26,21 @@ using namespace std;
  */
 
 int checkBalance(string code) {
+    Stack<char> store;
+    for (int i = 0; i < code.length(); i++) {
+        char s = code[i];
+        if (s == '(' or s == '{') {
+            // put it in the stack
+
+        } else if (s == ')') {
+            // get the last one out and check if they're pair
+            // also check if stack is empty
+
+        } else if (s == '}') {
+            // get the last one out and check if they're pair
+            // also check if stack is empty
+        }
+    }
     return 0;
 }
 
