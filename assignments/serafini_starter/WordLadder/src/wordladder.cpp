@@ -24,53 +24,68 @@ void printLadder(Stack<string>& ladder) {
 
 int main() {
     // TODO: Finish the program!
-    string filename = getLine("Dictionary file name?");
-    string word1 = getLine("Word #1 (or Enter to quit)");
-    if (word1 == "") {
-        cout << "Have a nice day!" << endl;
-        return 0;
-    }
-    string word2 = getLine("Word #2 (or Enter to quit)");
-    if (word2 == "") {
-        cout << "Have a nice day!" << endl;
-        return 0;
-    }
-    cout << "word1" << word1 << endl;
-    cout << "word2" << word2 << endl;
-
     Lexicon dictionary;
-    Lexicon exist_words;
+    ifstream stream;
+    string filename = promptUserForFile(stream, "Dictionary file name?");
+    //string filename = getLine("Dictionary file name?");
     dictionary = Lexicon(filename);
-    Queue<Stack<string>> ladders;
-    Stack<string> ladder;
-    string word;
+    while (1) {
+        cout << endl;
+        string word1 = getLine("Word #1 (or Enter to quit)");
+        if (word1 == "") {
+            break;
+        }
+        string word2 = getLine("Word #2 (or Enter to quit)");
+        if (word2 == "") {
+            break;
+        }
+        if (word1.length() != word2.length()) {
+            cout << "two words must be the same length." << endl;
+            continue;
+        }
+        word1 = toLowerCase(word1);
+        word2 = toLowerCase(word2);
+        if (!dictionary.contains(word1) || !dictionary.contains(word2)) {
+            cout << "The two words must be found in the dictionary." << endl;
+        }
+        if (word1 == word2) {
+            cout << "The two words must be different." << endl;
+        }
 
-    ladder.push(word1);
-    ladders.enqueue(ladder);
-    while (!ladders.isEmpty()) {
-        ladder = ladders.dequeue();
-        word = ladder.peek();
-        for (int i = 0; i < word.length(); i++) {
-            for (char c = 'a'; c < 'z'; c++) {
-                word[i] = c;
-                if (!dictionary.contains(word)) {continue;}
-                Stack<string> ladder_copy = ladder;
-                if (!exist_words.contains(word)) {
-                    ladder_copy.push(word);
-                    if (word == word2) {
-                        ladders.clear();
-                        printLadder(ladder_copy);
-                        break;
-                    } else {
-                        ladders.enqueue(ladder_copy);
-                        exist_words.add(word);
+        Lexicon exist_words;
+        Queue<Stack<string>> ladders;
+        Stack<string> ladder;
+        string word;
+
+        ladder.push(word1);
+        ladders.enqueue(ladder);
+        exist_words.add(word1);
+        while (!ladders.isEmpty()) {
+            ladder = ladders.dequeue();
+            int word_len = ladder.peek().length();
+            for (int i = 0; i < word_len; i++) {
+                word = ladder.peek();
+                for (char c = 'a'; c <= 'z'; c++) {
+                    word[i] = c;
+                    //cout << "c: " << c << "  word: " << word << endl;
+                    if (!dictionary.contains(word)) {continue;}
+                    Stack<string> ladder_copy = ladder;
+                    if (!exist_words.contains(word)) {
+                        ladder_copy.push(word);
+                        if (word == word2) {
+                            ladders.clear();
+                            word = "";
+                            printLadder(ladder_copy);
+                            break;
+                        } else {
+                            ladders.enqueue(ladder_copy);
+                            exist_words.add(word);
+                        }
                     }
                 }
             }
         }
     }
-
-
 
     cout << "Have a nice day." << endl;
     return 0;
